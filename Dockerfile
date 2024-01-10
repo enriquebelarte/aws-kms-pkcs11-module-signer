@@ -18,6 +18,11 @@ ENV AWS_DEFAULT_REGION=eu-west-3
 ENV AWS_KMS_TOKEN=xxxxxxx-xxxx-xxxxxx-xxxxx
 # Copy the library from previous build step
 COPY --from=build /usr/lib/pkcs11/aws_kms_pkcs11.so /usr/lib/pkcs11/aws_kms_pkcs11.so
+# Copy configuration files for pkcs11 library
+COPY config.json /etc/aws-kms-pkcs11/config.json
+COPY x509.genkey /etc/aws-kms-pkcs11/x509.genkey
+# Copy shell script to update config
+COPY configure_pkcs.sh /bin/configure_pkcs.sh
 # Update the repositories
 RUN pacman -Syy
 # Install linux-headers to get sign-file script and aws client
